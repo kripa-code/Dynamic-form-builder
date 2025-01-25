@@ -1,0 +1,41 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const formContainer = document.getElementById('form-container');
+    const addFieldButton = document.getElementById('add-field');
+    const removeFieldButton = document.getElementById('remove-field');
+    const dynamicForm = document.getElementById('dynamic-form');
+    let fieldCount = 0;
+
+    // Function to add a new form field
+    function addFormField() {
+        fieldCount++;
+        const newField = document.createElement('div');
+        newField.className = 'form-field';
+        newField.innerHTML = `
+            <label for="field${fieldCount}">Field ${fieldCount}</label>
+            <input type="text" id="field${fieldCount}" name="field${fieldCount}">
+        `;
+        formContainer.appendChild(newField);
+    }
+
+    // Function to remove the last form field
+    function removeFormField() {
+        if (fieldCount > 0) {
+            formContainer.removeChild(formContainer.lastChild);
+            fieldCount--;
+        }
+    }
+
+    // Event listeners for buttons
+    addFieldButton.addEventListener('click', addFormField);
+    removeFieldButton.addEventListener('click', removeFormField);
+
+    // Handle form submission
+    dynamicForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(dynamicForm);
+        console.log('Form Data:');
+        for (const [name, value] of formData.entries()) {
+            console.log(`${name}: ${value}`);
+        }
+    });
+});
